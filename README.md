@@ -21,7 +21,7 @@ kubectl apply -f k8s/
 kubectl get pv  # persistent volume
 kubectl get pvc
 
-kubectl create generic pgpassword --from-literal PGPASSWORD=password123
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=password123
 kubectl get secrets
 ```
 
