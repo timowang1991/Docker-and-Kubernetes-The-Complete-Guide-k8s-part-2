@@ -12,6 +12,40 @@ kubectl get deployments
 kubectl delete -f k8s
 ```
 
+<br/><br/>
+
+# k8s dashboard
+
+## How to start
+follow the steps here from [k8s docs](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/#deploying-the-dashboard-ui)
+
+* start dashboard
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+kubectl apply -f k8s/dash-admin-user.yaml
+kubectl apply -f k8s/dash-clusterrole.yaml
+kubectl proxy
+```
+
+* open browser: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+  * if you see empty dashboard, log out then log in again with the token in the next step
+
+* get token
+```
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+```
+
+## How to stop
+
+```
+kubectl delete -f k8s/dash-admin-user.yaml
+kubectl delete -f k8s/dash-clusterrole.yaml
+kubectl proxy
+```
+
+<br/><br/>
+
 # Useful commands
 ```bash
 kubectl get services
